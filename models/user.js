@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { v4: uuidv4 } = require("uuid");
 const crypto = require("crypto");
+const workspaceSchema = require("./workspace");
 
 var userSchema = new Schema(
   {
@@ -21,12 +22,13 @@ var userSchema = new Schema(
       required: true,
     },
     salt: String,
+    workspace: [workspaceSchema],
   },
   { timestamps: true }
 );
 
 userSchema.virtual(password).set(function (password) {
-  this.salt = v4();
+  this.salt = uuidv4();
   this.encrypted_password = this.securePassword(password);
 });
 
