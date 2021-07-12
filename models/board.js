@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose.Schema;
+const { Schema } = mongoose;
 
 var boardSchema = new Schema({
   boardName: {
@@ -9,4 +9,4 @@ var boardSchema = new Schema({
   },
 });
 
-moduel.exports = boardSchema;
+module.exports = boardSchema;

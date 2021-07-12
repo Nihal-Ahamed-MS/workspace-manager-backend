@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema } = mongose.Schema;
+const { Schema } = mongoose;
 const Board = require("./board");
 
 var workspaceSchema = new Schema({
