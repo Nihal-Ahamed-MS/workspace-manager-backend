@@ -9,6 +9,9 @@ const userRoute = require("./routes/user");
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
+const { makeExecutableSchema } = require("@graphql-tools/schema");
+const { applyMiddleware } = require("graphql-middleware");
+const userMiddleware = require("./graphql/middlewares/index");
 
 // const server = new ApolloServer({
 //   typedefs,
@@ -48,9 +51,17 @@ const resolvers = require("./graphql/resolvers");
 //   },
 // };
 
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
+});
+
+const middleware = [userMiddleware];
+
+const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
+
+const server = new ApolloServer({
+  schema: schemaWithMiddleware,
 });
 
 mongoose
