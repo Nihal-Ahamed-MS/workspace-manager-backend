@@ -59,6 +59,11 @@ module.exports = gql`
   type Mutation {
     signUp(signUpInput: SignUpInput): User
     signIn(signInInput: SignInInput): User
-    createWorkSpace(createWorkSpaceInput: CreateWorksSpaceInput): User
+    createWorkSpace(
+      userId: ID
+      workspaceName: String
+      workspaceType: String
+    ): User
+    createBoard(userId: ID, boardName: String, workspaceId: ID): User
   }
 `;
