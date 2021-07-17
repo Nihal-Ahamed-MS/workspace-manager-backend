@@ -12,6 +12,21 @@ module.exports = gql`
   type Workspace {
     workspaceName: String
     workspaceType: String
+    boards: [Boards]
+  }
+
+  type Boards {
+    boardName: String
+    listOfCards: [ListOfCards]
+  }
+
+  type ListOfCards {
+    listName: String
+    cardList: [Card]
+  }
+
+  type Card {
+    cardName: String
   }
 
   type Query {

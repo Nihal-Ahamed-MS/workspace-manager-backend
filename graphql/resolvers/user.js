@@ -18,8 +18,6 @@ module.exports = {
       context,
       info
     ) {
-      console.log(context);
-      const user = await User.findById(userId).exec();
       context.workspace.push({ workspaceName, workspaceType });
       return await context.save();
     },

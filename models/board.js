@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const card = require("./card");
 
-// const ListOfCardSchema = new Schema({
-//   listName: {
-//     type: String,
-//     trime: true,
-//   },
-// });
-
-// const ListOfCard = mongoose.model("ListOfCard", ListOfCardSchema);
+const listOfCardSchema = new Schema({
+  listName: {
+    type: String,
+    trime: true,
+  },
+  cardList: [card],
+});
 
 var boardSchema = new Schema({
   boardName: {
@@ -18,10 +18,9 @@ var boardSchema = new Schema({
   },
   visibility: {
     type: String,
-    required: true,
     enum: ["PRIVATE", "WORKSPACE", "PUBLIC"],
   },
-  // listOfCards: [ListOfCard],
+  listOfCards: [listOfCardSchema],
 });
 
 module.exports = boardSchema;
