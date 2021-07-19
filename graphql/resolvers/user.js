@@ -2,7 +2,7 @@ const User = require("../../models/user");
 
 module.exports = {
   Query: {
-    async getUsers() {
+    async getUsers(parent, args, context) {
       try {
         const user = await User.find();
         return user;

@@ -7,6 +7,10 @@ var cardShema = Schema({
     trim: true,
     required: true,
   },
+  cardDesc: {
+    type: String,
+    trim: true,
+  },
 });
 
 module.exports = cardShema;

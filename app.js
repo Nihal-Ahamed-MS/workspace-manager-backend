@@ -12,6 +12,7 @@ const resolvers = require("./graphql/resolvers");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const { applyMiddleware } = require("graphql-middleware");
 const userMiddleware = require("./graphql/middlewares/index");
+const isAuthenticated = require("./utils/isAuthenticated");
 
 // const server = new ApolloServer({
 //   typedefs,
@@ -62,6 +63,7 @@ const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 
 const server = new ApolloServer({
   schema: schemaWithMiddleware,
+  context: isAuthenticated(context),
 });
 
 mongoose
