@@ -22,7 +22,9 @@ module.exports = {
         return { err: "Email and password doesn't match" };
       }
 
-      const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+      const token = jwt.sign({ _id: user._id }, process.env.SECRET, {
+        expiresIn: "7d",
+      });
 
       return {
         ...user._doc,

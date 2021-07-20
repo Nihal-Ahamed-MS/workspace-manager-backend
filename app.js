@@ -13,6 +13,7 @@ const { makeExecutableSchema } = require("@graphql-tools/schema");
 const { applyMiddleware } = require("graphql-middleware");
 const userMiddleware = require("./graphql/middlewares/index");
 const isAuthenticated = require("./utils/isAuthenticated");
+const cookieParser = require("cookie-parser");
 
 // const server = new ApolloServer({
 //   typedefs,
@@ -57,13 +58,19 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
+app.use(cookieParser());
+
+app.use((req, _, next) => {
+  console.log(req);
+});
+
 const middleware = [userMiddleware];
 
 const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 
 const server = new ApolloServer({
   schema: schemaWithMiddleware,
-  context: isAuthenticated(context),
+  context: ({ req, res }) => ({ req, res }),
 });
 
 mongoose

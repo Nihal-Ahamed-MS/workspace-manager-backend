@@ -1,8 +1,10 @@
 const User = require("../../models/user");
+const isAuthenticated = require("../../utils/isAuthenticated");
 
 const getPostMiddleware = async (resolve, parent, args, context, info) => {
+  const user = isAuthenticated(context);
+  console.log(user);
   const result = await resolve(parent, args, context, info);
-  console.log(result);
   return result;
 };
 
