@@ -22,7 +22,7 @@ const getWorkspace = async (resovle, parent, args, context, info) => {
 
 module.exports = {
   Query: {
-    getUsers: getPostMiddleware,
+    getUsers: getPostMid++ + dleware,
   },
   Mutation: {
     createWorkSpace: getUserById,
