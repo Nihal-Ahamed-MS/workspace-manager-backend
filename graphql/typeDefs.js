@@ -5,7 +5,6 @@ module.exports = gql`
     _id: ID
     username: String
     email: String
-    token: String
     workspace: [Workspace]
   }
 
@@ -30,7 +29,7 @@ module.exports = gql`
   }
 
   type Query {
-    getUsers: [User]
+    getUser: User
   }
 
   input SignUpInput {
@@ -44,8 +43,7 @@ module.exports = gql`
     password: String
   }
 
-  input CreateWorksSpaceInput {
-    userId: ID
+  input CreateWorkSpaceInput {
     workspaceName: String
     workspaceType: String
   }
@@ -59,11 +57,7 @@ module.exports = gql`
   type Mutation {
     signUp(signUpInput: SignUpInput): User
     signIn(signInInput: SignInInput): User
-    createWorkSpace(
-      userId: ID
-      workspaceName: String
-      workspaceType: String
-    ): User
+    createWorkSpace(createWorkSpaceInput: CreateWorkSpaceInput): User
     createBoard(userId: ID, boardName: String, workspaceId: ID): User
   }
 `;

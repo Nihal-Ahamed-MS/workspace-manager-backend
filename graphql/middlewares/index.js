@@ -1,16 +1,19 @@
 const User = require("../../models/user");
 const isAuthenticated = require("../../utils/isAuthenticated");
 
-const getPostMiddleware = async (resolve, parent, args, context, info) => {
-  const user = isAuthenticated(context);
-  console.log(user);
-  const result = await resolve(parent, args, context, info);
-  return result;
+const getUserMiddleware = async (resolve, parent, args, context, info) => {
+  console.log(context);
+  if (context.isUserAuthenticated._id) {
+    const result = await resolve(parent, args, context, info);
+    return result;
+  }
+  return context.isAuthenticated;
 };
 
 const getUserById = async (resolve, parent, args, context, info) => {
-  const user = await User.findById(args.userId).exec();
-  context = user;
+  const { _id } = context.isUserAuthenticated;
+  const user = await User.findById(_id).exec();
+  context = { ...context, user: user };
   const result = await resolve(parent, args, context, info);
   return result;
 };
@@ -22,7 +25,7 @@ const getWorkspace = async (resovle, parent, args, context, info) => {
 
 module.exports = {
   Query: {
-    getUsers: getPostMiddleware,
+    getUser: getUserById,
   },
   Mutation: {
     createWorkSpace: getUserById,
