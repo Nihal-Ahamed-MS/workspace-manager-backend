@@ -29,6 +29,8 @@ module.exports = {
   },
   Mutation: {
     createWorkSpace: getUserById,
-    createBoard: getWorkspace,
+    createBoard: getUserById,
+    createCardList: getUserById,
+    createCard: getUserById,
   },
 };

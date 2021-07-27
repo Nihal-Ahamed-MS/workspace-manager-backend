@@ -5,31 +5,33 @@ module.exports = gql`
     _id: ID
     username: String
     email: String
+    token: String
     workspace: [Workspace]
   }
 
   type Workspace {
+    _id: ID
     workspaceName: String
     workspaceType: String
-    boards: [Boards]
+    boards: [Board]
   }
 
-  type Boards {
+  type Board {
+    _id: ID
     boardName: String
     listOfCards: [ListOfCards]
   }
 
   type ListOfCards {
+    _id: ID
     listName: String
     cardList: [Card]
   }
 
   type Card {
+    _id: ID
     cardName: String
-  }
-
-  type Query {
-    getUser: User
+    cardDesc: String
   }
 
   input SignUpInput {
@@ -48,16 +50,41 @@ module.exports = gql`
     workspaceType: String
   }
 
+  input CreateBoardInput {
+    workspaceId: String
+    boardName: String
+  }
+
+  input CreateCardListInput {
+    workspaceId: String
+    boardId: String
+    listName: String
+  }
+
+  input CreateCardInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    cardName: String
+    cardDesc: String
+  }
+
   enum Visibility {
     PRIVATE
     WORKSPACE
     PUBLIC
   }
 
+  type Query {
+    getUser: User
+  }
+
   type Mutation {
     signUp(signUpInput: SignUpInput): User
     signIn(signInInput: SignInInput): User
     createWorkSpace(createWorkSpaceInput: CreateWorkSpaceInput): User
-    createBoard(userId: ID, boardName: String, workspaceId: ID): User
+    createBoard(createBoardInput: CreateBoardInput): User
+    createCardList(createCardListInput: CreateCardListInput): User
+    createCard(createCardInput: CreateCardInput): User
   }
 `;

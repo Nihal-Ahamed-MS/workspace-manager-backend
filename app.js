@@ -28,6 +28,7 @@ const startServer = async () => {
 
   const server = new ApolloServer({
     schema: schemaWithMiddleware,
+    //context: (context) => console.log(context),
     context: (context) => ({ isUserAuthenticated: isAuthenticated(context) }),
   });
   await server.start();
