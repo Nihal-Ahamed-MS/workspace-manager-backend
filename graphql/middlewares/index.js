@@ -18,11 +18,6 @@ const getUserById = async (resolve, parent, args, context, info) => {
   return result;
 };
 
-const getWorkspace = async (resovle, parent, args, context, info) => {
-  const user = await getUserById(resovle, parent, args, context, info);
-  return user;
-};
-
 module.exports = {
   Query: {
     getUser: getUserById,
