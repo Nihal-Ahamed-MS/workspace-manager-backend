@@ -2,7 +2,6 @@ const User = require("../../models/user");
 const isAuthenticated = require("../../utils/isAuthenticated");
 
 const getUserMiddleware = async (resolve, parent, args, context, info) => {
-  console.log(context);
   if (context.isUserAuthenticated._id) {
     const result = await resolve(parent, args, context, info);
     return result;
@@ -21,6 +20,7 @@ const getUserById = async (resolve, parent, args, context, info) => {
 module.exports = {
   Query: {
     getUser: getUserById,
+    getBoard: getUserById,
   },
   Mutation: {
     createWorkSpace: getUserById,

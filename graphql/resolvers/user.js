@@ -5,6 +5,15 @@ module.exports = {
     async getUser(parent, args, context) {
       return context.user;
     },
+
+    async getBoard(
+      parent,
+      { getBoardInput: { workspaceId, boardId } },
+      { user }
+    ) {
+      // console.log(user.workspace.id(workspaceId).boards.id(boardId));
+      return user.workspace.id(workspaceId).boards.id(boardId);
+    },
   },
   Mutation: {
     async createWorkSpace(
@@ -23,7 +32,11 @@ module.exports = {
       info
     ) {
       user.workspace.id(workspaceId).boards.push({ boardName });
-      return await user.save();
+      const board = user.workspace.id(workspaceId).boards;
+
+      await user.save();
+
+      return user.workspace.id(workspaceId).boards[board.length - 1];
     },
     async createCardList(
       parent,

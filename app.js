@@ -21,6 +21,8 @@ const startServer = async () => {
   });
 
   app.use(cookieParser());
+  app.use(bodyparser());
+  app.use(cors());
 
   const middleware = [userMiddleware];
 
@@ -29,7 +31,10 @@ const startServer = async () => {
   const server = new ApolloServer({
     schema: schemaWithMiddleware,
     //context: (context) => console.log(context),
-    context: (context) => ({ isUserAuthenticated: isAuthenticated(context) }),
+    context: (context) => ({
+      ...context,
+      isUserAuthenticated: isAuthenticated(context),
+    }),
   });
   await server.start();
   server.applyMiddleware({ app });

@@ -75,15 +75,21 @@ module.exports = gql`
     PUBLIC
   }
 
+  input GetBoardInput {
+    workspaceId: String
+    boardId: String
+  }
+
   type Query {
     getUser: User
+    getBoard(getBoardInput: GetBoardInput): Board
   }
 
   type Mutation {
     signUp(signUpInput: SignUpInput): User
     signIn(signInInput: SignInInput): User
     createWorkSpace(createWorkSpaceInput: CreateWorkSpaceInput): User
-    createBoard(createBoardInput: CreateBoardInput): User
+    createBoard(createBoardInput: CreateBoardInput): Board
     createCardList(createCardListInput: CreateCardListInput): User
     createCard(createCardInput: CreateCardInput): User
   }
