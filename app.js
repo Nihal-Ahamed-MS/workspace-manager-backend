@@ -54,8 +54,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-//How to do inivite user
-//Follow up add that user to particualr card or board
-//Follow change the borad typeDef and schema repectively to active coments
-//Upload blob to server.
