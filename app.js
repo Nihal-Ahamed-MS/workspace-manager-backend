@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const bodyparser = require("body-parser");
-const cookieparser = require("cookie-parser");
 const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
@@ -55,3 +54,8 @@ const startServer = async () => {
 };
 
 startServer();
+
+//How to do inivite user
+//Follow up add that user to particualr card or board
+//Follow change the borad typeDef and schema repectively to active coments
+//Upload blob to server.

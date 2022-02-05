@@ -27,16 +27,15 @@ module.exports = {
     },
     async createBoard(
       parent,
-      { createBoardInput: { boardName, workspaceId } },
+      { createBoardInput: { boardName, imageUrl, workspaceId } },
       { user },
       info
     ) {
-      user.workspace.id(workspaceId).boards.push({ boardName });
       const board = user.workspace.id(workspaceId).boards;
+      board.push({ boardName, imageUrl });
+      return await user.save();
 
-      await user.save();
-
-      return user.workspace.id(workspaceId).boards[board.length - 1];
+      // return board[board.length - 1];
     },
     async createCardList(
       parent,
@@ -44,27 +43,112 @@ module.exports = {
       { user },
       info
     ) {
-      user.workspace
+      const cardList = user.workspace
         .id(workspaceId)
-        .boards.id(boardId)
-        .listOfCards.push({ listName });
+        .boards.id(boardId).listOfCards;
+      cardList.push({ listName });
 
-      return await user.save();
+      await user.save();
+      return user.workspace.id(workspaceId).boards.id(boardId);
     },
 
     async createCard(
       parent,
-      { createCardInput: { workspaceId, boardId, cardListId, cardName } },
+      {
+        createCardInput: {
+          workspaceId,
+          boardId,
+          cardListId,
+          cardName,
+          cardDesc,
+          startDate,
+          endDate,
+        },
+      },
       { user },
       info
     ) {
-      user.workspace
+      const card = user.workspace
+        .id(workspaceId)
+        .boards.id(boardId)
+        .listOfCards.id(cardListId).cardList;
+      card.push({ cardName, cardDesc, startDate, endDate });
+
+      await user.save();
+      return user.workspace.id(workspaceId).boards.id(boardId);
+    },
+
+    async addCardDesc(
+      parent,
+      { addCardDesc: { workspaceId, boardId, cardListId, cardId, cardDesc } },
+      { user },
+      info
+    ) {
+      const card = user.workspace
         .id(workspaceId)
         .boards.id(boardId)
         .listOfCards.id(cardListId)
-        .cardList.push({ cardName });
+        .cardList.id(cardId);
+      card.set({ cardDesc });
 
       return await user.save();
+    },
+
+    async addCardDate(
+      parent,
+      {
+        addCardDate: {
+          workspaceId,
+          boardId,
+          cardListId,
+          cardId,
+          startDate,
+          endDate,
+        },
+      },
+      { user },
+      info
+    ) {
+      const card = user.workspace
+        .id(workspaceId)
+        .boards.id(boardId)
+        .listOfCards.id(cardListId)
+        .cardList.id(cardId);
+      card.set({ startDate, endDate });
+
+      return await user.save();
+    },
+
+    async addCardCheckList(
+      parent,
+      {
+        addCardCheckList: {
+          workspaceId,
+          boardId,
+          cardListId,
+          cardId,
+          checkListName,
+          isChecked,
+          checkListId,
+        },
+      },
+      { user },
+      info
+    ) {
+      const cardCheckList = user.workspace
+        .id(workspaceId)
+        .boards.id(boardId)
+        .listOfCards.id(cardListId)
+        .cardList.id(cardId).checkList;
+
+      if (checkListId === "") {
+        cardCheckList.push({ checkListName, isChecked });
+      } else {
+        cardCheckList.id(checkListId).set({ isChecked });
+      }
+
+      await user.save();
+      return cardCheckList[cardCheckList.length - 1];
     },
   },
 };

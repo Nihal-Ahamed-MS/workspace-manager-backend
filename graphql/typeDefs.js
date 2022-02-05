@@ -19,6 +19,7 @@ module.exports = gql`
   type Board {
     _id: ID
     boardName: String
+    imageUrl: String
     listOfCards: [ListOfCards]
   }
 
@@ -32,6 +33,29 @@ module.exports = gql`
     _id: ID
     cardName: String
     cardDesc: String
+    startDate: String
+    endDate: String
+    checkList: [CheckLists]
+    comments: [commentLists]
+    attachements: [attachementLists]
+  }
+
+  type CheckLists {
+    _id: ID
+    checkListName: String
+    isChecked: Boolean
+  }
+
+  type commentLists {
+    commentAuthorId: String
+    commentAuthor: String
+    commentDesc: String
+  }
+
+  type attachementLists {
+    attachmentUrl: String
+    attachmentTitle: String
+    attachmentDesc: String
   }
 
   input SignUpInput {
@@ -53,6 +77,7 @@ module.exports = gql`
   input CreateBoardInput {
     workspaceId: String
     boardName: String
+    imageUrl: String
   }
 
   input CreateCardListInput {
@@ -67,6 +92,55 @@ module.exports = gql`
     cardListId: String
     cardName: String
     cardDesc: String
+    startDate: String
+    endDate: String
+  }
+
+  input AddCardDescInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    cardId: String
+    cardDesc: String
+  }
+
+  input AddCardDateInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    startDate: String
+    cardId: String
+    endDate: String
+  }
+
+  input AddCardCheckListInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    checkListId: String
+    checkListName: String
+    cardId: String
+    isChecked: Boolean
+  }
+
+  input AddCardAttachementInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    cardId: String
+    attachmentUrl: String
+    attachmentTitle: String
+    attachmentDesc: String
+  }
+
+  input AddCardCommentInput {
+    workspaceId: String
+    boardId: String
+    cardListId: String
+    cardId: String
+    commentAuthorId: String
+    commentAuthor: String
+    commentDesc: String
   }
 
   enum Visibility {
@@ -89,8 +163,13 @@ module.exports = gql`
     signUp(signUpInput: SignUpInput): User
     signIn(signInInput: SignInInput): User
     createWorkSpace(createWorkSpaceInput: CreateWorkSpaceInput): User
-    createBoard(createBoardInput: CreateBoardInput): Board
-    createCardList(createCardListInput: CreateCardListInput): User
-    createCard(createCardInput: CreateCardInput): User
+    createBoard(createBoardInput: CreateBoardInput): User
+    createCardList(createCardListInput: CreateCardListInput): Board
+    createCard(createCardInput: CreateCardInput): Board
+    addCardDesc(addCardDesc: AddCardDescInput): User
+    addCardDate(addCardDate: AddCardDateInput): User
+    addCardComment(addCardComment: AddCardCommentInput): User
+    addCardAttachement(addCardAttachement: AddCardAttachementInput): User
+    addCardCheckList(addCardCheckList: AddCardCheckListInput): CheckLists
   }
 `;

@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const card = require("./card");
+const Card = require("./card");
 
-const listOfCardSchema = new Schema({
+const ListOfCards = new Schema({
   listName: {
     type: String,
-    trime: true,
+    trim: true,
   },
-  cardList: [card],
+  cardList: [Card],
 });
 
 var boardSchema = new Schema({
@@ -16,11 +16,14 @@ var boardSchema = new Schema({
     required: true,
     trim: true,
   },
+  imageUrl: {
+    type: String,
+  },
   visibility: {
     type: String,
     enum: ["PRIVATE", "WORKSPACE", "PUBLIC"],
   },
-  listOfCards: [listOfCardSchema],
+  listOfCards: [ListOfCards],
 });
 
 module.exports = boardSchema;

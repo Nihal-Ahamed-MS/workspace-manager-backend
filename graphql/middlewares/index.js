@@ -27,5 +27,10 @@ module.exports = {
     createBoard: getUserById,
     createCardList: getUserById,
     createCard: getUserById,
+    addCardDesc: getUserById,
+    addCardDate: getUserById,
+    addCardComment: getUserById,
+    addCardAttachement: getUserById,
+    addCardCheckList: getUserById,
   },
 };
