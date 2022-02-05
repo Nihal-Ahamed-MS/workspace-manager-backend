@@ -62,6 +62,8 @@ module.exports = {
           cardName,
           cardDesc,
           startDate,
+          isCompleted,
+          cardId,
           endDate,
         },
       },
@@ -72,7 +74,14 @@ module.exports = {
         .id(workspaceId)
         .boards.id(boardId)
         .listOfCards.id(cardListId).cardList;
-      card.push({ cardName, cardDesc, startDate, endDate });
+
+      if (cardId === "") {
+        card.push({ cardName, cardDesc, startDate, endDate, isCompleted });
+      } else {
+        card
+          .id(cardId)
+          .set({ cardName, cardDesc, startDate, endDate, isCompleted });
+      }
 
       await user.save();
       return user.workspace.id(workspaceId).boards.id(boardId);

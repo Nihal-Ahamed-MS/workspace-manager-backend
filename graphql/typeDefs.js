@@ -35,6 +35,7 @@ module.exports = gql`
     cardDesc: String
     startDate: String
     endDate: String
+    isCompleted: Boolean
     checkList: [CheckLists]
     comments: [commentLists]
     attachements: [attachementLists]
@@ -94,6 +95,8 @@ module.exports = gql`
     cardDesc: String
     startDate: String
     endDate: String
+    isCompleted: Boolean
+    cardId: String
   }
 
   input AddCardDescInput {
