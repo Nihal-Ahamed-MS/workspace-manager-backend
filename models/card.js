@@ -44,20 +44,16 @@ var cardShema = Schema(
   {
     cardName: {
       type: String,
-      trim: true,
       required: true,
     },
     cardDesc: {
       type: String,
-      trim: true,
     },
     startDate: {
       type: String,
-      trim: true,
     },
     endDate: {
       type: String,
-      trim: true,
     },
     isCompleted: {
       type: Boolean,

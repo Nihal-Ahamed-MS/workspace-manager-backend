@@ -20,6 +20,7 @@ const getUserById = async (resolve, parent, args, context, info) => {
 module.exports = {
   Query: {
     getUser: getUserById,
+    getDueCard: getUserById,
     getBoard: getUserById,
   },
   Mutation: {

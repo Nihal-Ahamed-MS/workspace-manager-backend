@@ -5,6 +5,47 @@ module.exports = {
     async getUser(parent, args, context) {
       return context.user;
     },
+    async getDueCard(parent, args, { user }) {
+      var arr = [];
+      const current = new Date();
+      const date = current.getDate();
+      const month = current.getMonth() + 1;
+      const year = current.getFullYear();
+
+      const list = user.workspace.map((workspace) => {
+        workspace.boards.map((board) => {
+          board.listOfCards.map((list) => {
+            list.cardList.map((card) => {
+              if (card.endDate) {
+                var dueDate = card.endDate.split("-");
+
+                if (
+                  dueDate[0] >= year &&
+                  dueDate[1] >= month &&
+                  dueDate[2] >= date
+                ) {
+                  var res = {
+                    _id: card._id,
+                    cardName: card.cardName,
+                    cardDesc: card.cardDesc,
+                    startDate: card.startDate,
+                    endDate: card.endDate,
+                    isCompleted: card.isCompleted,
+                    workspaceId: workspace.id,
+                    workspaceName: workspace.workspaceName,
+                    boardId: board.id,
+                  };
+                  arr.push(res);
+                }
+              }
+            });
+          });
+        });
+      });
+
+      await Promise.all(list);
+      return arr;
+    },
 
     async getBoard(
       parent,
@@ -27,13 +68,29 @@ module.exports = {
     },
     async createBoard(
       parent,
-      { createBoardInput: { boardName, imageUrl, workspaceId } },
+      {
+        createBoardInput: {
+          boardName,
+          imageUrl,
+          workspaceId,
+          boardId,
+          listOfCards,
+        },
+      },
       { user },
       info
     ) {
-      const board = user.workspace.id(workspaceId).boards;
-      board.push({ boardName, imageUrl });
-      return await user.save();
+      if (boardId === " ") {
+        const board = user.workspace.id(workspaceId).boards;
+        board.push({ boardName, imageUrl });
+        return await user.save();
+      } else {
+        user.workspace
+          .id(workspaceId)
+          .boards.id(boardId)
+          .set({ boardName, imageUrl, listOfCards });
+        return await user.save();
+      }
 
       // return board[board.length - 1];
     },
@@ -75,7 +132,7 @@ module.exports = {
         .boards.id(boardId)
         .listOfCards.id(cardListId).cardList;
 
-      if (cardId === "") {
+      if (cardId === " ") {
         card.push({ cardName, cardDesc, startDate, endDate, isCompleted });
       } else {
         card

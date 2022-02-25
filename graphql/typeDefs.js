@@ -29,6 +29,18 @@ module.exports = gql`
     cardList: [Card]
   }
 
+  type ListOfDueCards {
+    _id: ID
+    cardName: String
+    cardDesc: String
+    startDate: String
+    endDate: String
+    isCompleted: Boolean
+    workspaceId: String
+    workspaceName: String
+    boardId: String
+  }
+
   type Card {
     _id: ID
     cardName: String
@@ -77,8 +89,25 @@ module.exports = gql`
 
   input CreateBoardInput {
     workspaceId: String
+    boardId: String
     boardName: String
     imageUrl: String
+    listOfCards: [createBoardListOfCards]
+  }
+
+  input createBoardListOfCards {
+    _id: String
+    listName: String
+    cardList: [createBoardListofCardList]
+  }
+
+  input createBoardListofCardList {
+    _id: String
+    cardName: String
+    cardDesc: String
+    startDate: String
+    endDate: String
+    isCompleted: Boolean
   }
 
   input CreateCardListInput {
@@ -160,6 +189,7 @@ module.exports = gql`
   type Query {
     getUser: User
     getBoard(getBoardInput: GetBoardInput): Board
+    getDueCard: [ListOfDueCards]
   }
 
   type Mutation {
