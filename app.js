@@ -21,13 +21,18 @@ const startServer = async () => {
 
   app.use(cookieParser());
   app.use(bodyparser());
-  app.use(cors());
+  app.use(cors({
+    origin: 'https://stage-data.apiwiz.io', // Replace with your allowed domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
 
   const middleware = [userMiddleware];
 
   const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 
   const server = new ApolloServer({
+    introspection: false,
     schema: schemaWithMiddleware,
     context: (context) => ({
       ...context,
