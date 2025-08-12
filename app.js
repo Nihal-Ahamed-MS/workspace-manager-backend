@@ -32,7 +32,7 @@ const startServer = async () => {
   const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 
   const server = new ApolloServer({
-    introspection: false,
+    introspection: true,
     schema: schemaWithMiddleware,
     context: (context) => ({
       ...context,
